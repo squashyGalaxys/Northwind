@@ -1,5 +1,6 @@
 ﻿using FlightPatterns;
 
+
 Passanger[] passangers = new Passanger[]
 {
     new FirstClassPassanger {AirMiles = 1_419, Name = "Susan"},
