@@ -4,18 +4,76 @@ using PublisherDomain;
 
 using PubContext _context = new();
 
-//GetAuthors();
+GetAuthors();
 //QueryFilters();
 //FindIt();
 //AddSomeMoreAuthors();
-SkipAndTakeAuthors();
+//SkipAndTakeAuthors();
+Console.WriteLine("__________________________________________________");
+//SortAuthors();
+//QueryAggreagate();
+//RetriveAndUpdateAuthor();
+RetriveAndUpdateMultipleAuthor();
+
+void RetriveAndUpdateMultipleAuthor()
+{
+    var KicanovicAuthors = _context.Authors
+        .Where(a => a.LastName == "Kicanovic").ToList();
+    foreach(var author in KicanovicAuthors)
+    {
+        author.LastName = "Radmilovic";
+    }
+    _context.SaveChanges();
+}
+
+void RetriveAndUpdateAuthor()
+{
+    var author = _context.Authors
+        .FirstOrDefault(a => a.FirstName == "Dusan" && a.LastName == "Kicanovic");
+
+    if (author != null)
+    {
+        author.LastName = "Radmilovic";
+        _context.SaveChanges();
+    }
+
+}
+
+void QueryAggreagate()
+{
+    var author = _context.Authors
+        .OrderBy(a => a.FirstName)
+        .FirstOrDefault(a => a.LastName == "Kicanovic");
+}
+
+void SortAuthors()
+{
+    //var authorsByLastName = _context.Authors
+    //    .OrderBy(a => a.LastName)
+    //    .ThenBy(a => a.FirstName).ToList();
+    //authorsByLastName.ForEach(a => Console.WriteLine(a.LastName + " " + a.FirstName));
+
+    var authorsDescending = _context.Authors
+        .OrderByDescending(a => a.LastName)
+        .ThenByDescending(a => a.FirstName).ToList();
+    Console.WriteLine("*Descending Last and First Name*");
+    authorsDescending.ForEach(a => Console.WriteLine(a.LastName + " " + a.FirstName));
+
+}
 
 void SkipAndTakeAuthors()
 {
-    var groupSize = 2;
-    for (var i = 0; i < 9; i++)
+    var groupSize = 3;
+    for (var i = 0; i < 5; i++)
     {
         var authors = _context.Authors.Skip(i * groupSize).Take(groupSize).ToList();
+        Console.WriteLine("=============");
+        Console.WriteLine("Group " + (i + 1));
+        Console.WriteLine("=============");
+        foreach (var author in authors)
+        {
+            Console.WriteLine(author.FirstName + " " + author.LastName);
+        }
     }
 }
 
