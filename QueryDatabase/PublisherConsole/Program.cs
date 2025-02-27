@@ -4,6 +4,15 @@ using PublisherDomain;
 
 using PubContext _context = new();
 
+var nyAuthors = new List<Author>
+{
+        new Author { FirstName = "Rita",LastName="Olsson"},
+        new Author { FirstName = "Sofia", LastName = "Smith" },
+        new Author { FirstName = "Ursula", LastName = "Levin" },
+        new Author { FirstName = "Harry", LastName = "Howey" },
+        new Author { FirstName = "Isabelle", LastName = "Allie" }
+};
+
 GetAuthors();
 //QueryFilters();
 //FindIt();
@@ -13,7 +22,56 @@ Console.WriteLine("__________________________________________________");
 //SortAuthors();
 //QueryAggreagate();
 //RetriveAndUpdateAuthor();
-RetriveAndUpdateMultipleAuthor();
+//RetriveAndUpdateMultipleAuthor();
+//VariousOperations();
+//DeleteAnAuthor();
+InsertMultipleAuthors();
+InsertMultipleAuthorsPassedIn(nyAuthors);
+
+void InsertMultipleAuthorsPassedIn(List<Author> nyAuthors)
+{
+    _context.Authors.AddRange(nyAuthors);
+    _context.SaveChanges();
+}
+
+void InsertMultipleAuthors()
+{
+    var newAuthors = new List<Author>
+    {
+        new Author { FirstName = "Dusan", LastName = "Kicanovic" },
+        new Author { FirstName = "Nevena", LastName = "Radmilovic" },
+        new Author { FirstName = "Jovan", LastName = "Cvijic" },
+        new Author { FirstName = "Stefan", LastName = "Hvar" }
+    };
+    _context.Authors.AddRange(newAuthors);
+    _context.SaveChanges();
+
+}
+
+GetAuthors();
+
+void DeleteAnAuthor()
+{
+    var extraNR = _context.Authors.Find(3);
+
+    if (extraNR != null)
+    {
+        _context.Authors.Remove(extraNR);
+        _context.SaveChanges();
+    }
+  
+}
+
+void VariousOperations()
+{
+    var author = _context.Authors.Find(2); //Detta kommer att returnera Nevena Radmilovic
+    author.LastName = "Kicanovic";
+
+    var newAuthor = new Author { FirstName = "Dan", LastName = "Alvsson" };
+    _context.Authors.Add(newAuthor);
+
+    _context.SaveChanges();
+}
 
 void RetriveAndUpdateMultipleAuthor()
 {
