@@ -13,6 +13,12 @@ namespace Northwind.EntityModels
 {
     public static class NorthwindContextExtensions
     {
+        /// <summary>
+        /// Extension method för att lägga till NorthwindDatabaseContext i Dependency Injection Container
+        /// </summary>
+        /// <param name="services">Service collection</param>
+        /// <param name="connectionString">Läggs till för att override default</param>
+        /// <returns>En IServiceCollection som kan användas för att lägga till mer tjänster </returns>
         public static IServiceCollection AddNorthwindContext(
             this IServiceCollection services, //typen som extends
             string? connectionString = null)
