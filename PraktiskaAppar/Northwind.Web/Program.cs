@@ -1,15 +1,25 @@
+#region  Konfigurera web server host och tjänster
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddRazorPages();
+
+
 var app = builder.Build();
+#endregion
 
 #region Konfiguration av HTTP pipeline och routing
-if(!app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 
-app.MapGet("/", () => "Hello World!");
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.MapRazorPages();
+
+app.MapGet("/hello", () => $"Enviroment is {app.Environment.EnvironmentName}");
 #endregion
 
 app.Run();
