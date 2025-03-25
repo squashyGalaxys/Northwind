@@ -364,3 +364,8 @@ FodyWeavers.xsd
 /FirstApp.zip
 /QueryDatabase.zip
 /PublisherAPI.zip
+/PraktiskaAppar/Northwind.Mvc/Data/Migrations/20250320094656_InitialMigration.cs
+/PraktiskaAppar/Northwind.Mvc/Data/Migrations/20250320094656_InitialMigration.Designer.cs
+/PraktiskaAppar/Northwind.Mvc/Data/Migrations/ApplicationDbContextModelSnapshot.cs
+/PraktiskaAppar/Northwind.Mvc/Data/Migrations/ApplicationDbContextModelSnapshot.cs
+/.gitignore
