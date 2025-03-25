@@ -78,7 +78,7 @@ public partial class NorthwindDatabaseContext : DbContext
             SqlConnectionStringBuilder builder = new();
 
             builder.DataSource = "(localdb)\\MSSQLLocalDB"; //ServerName/InstanceName sqllocaldb info
-            builder.InitialCatalog = "NorthwindDatabase";
+            builder.InitialCatalog = "Northwind";
             builder.TrustServerCertificate = true;
             builder.MultipleActiveResultSets = true;
 

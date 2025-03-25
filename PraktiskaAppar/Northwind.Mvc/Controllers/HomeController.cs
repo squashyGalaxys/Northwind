@@ -2,9 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Northwind.EntityModels;
 using Northwind.Mvc.Models;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization; // för att använda authorize attribute
 
 namespace Northwind.Mvc.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -29,6 +32,7 @@ namespace Northwind.Mvc.Controllers
 
             return View(model);
         }
+        
         public IActionResult ProductDetail(int? id)
         {
             if(!id.HasValue)
@@ -45,6 +49,25 @@ namespace Northwind.Mvc.Controllers
             return View(model);
         }
 
+        public IActionResult ModelBinding()
+        {
+            return View(); //sida med formulär
+        }
+        [HttpPost]
+        public IActionResult ModelBinding(Thing thing)
+        {
+            HomeModelBindningViewModel model= new(
+                thing,
+                HasErrors: !ModelState.IsValid,
+                ValidationErrors: ModelState.Values
+                    .SelectMany(state => state.Errors)
+                    .Select(error => error.ErrorMessage)
+            );
+            
+            return View(thing); //en sida som visar vad användaren skickade
+            
+        }
+        [Authorize] //Måste logga in för att se denna sida 
         public IActionResult Privacy()
         {
             return View();
@@ -55,5 +78,23 @@ namespace Northwind.Mvc.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        //För att kunna öppna upp view för category
+        public IActionResult Category(int id)
+        {
+            var category =db.Categories.SingleOrDefault(c => c.CategoryId == id);
+            if (category is null) 
+            {
+                return NotFound($"Category with id {id} not found. Try again.");
+            }
+            var model = new HomecategoryViewModel
+            {
+                Categories = new List<Category> { category }
+            };
+            return View(model);
+
+            
+        }
+
     }
 }

@@ -1,0 +1,29 @@
+﻿@model Northwind.Mvc.Models.HomecategoryViewModel
+@{
+    ViewData["Title"] = "category";
+    
+    var currentIndex = 0;
+    if (ViewData["CurrentIndex"] != null)
+    {
+        currentIndex = (int)ViewData["CurrentIndex"];
+    }
+    var category = Model.Categories[currentIndex];
+}
+@if (Model.Categories.Count > 0)
+{
+    <div class="text-center">
+
+        <h1 class="display-4">Welcome to @category.CategoryName page!</h1>
+        <h2>What we offer in @category.CategoryName</h2>
+        
+        <ul class="list-group">
+            @foreach (var item in category.Description.Split(' '))
+            {
+                <li class="list-group-item">@item</li>
+            }
+        </ul>
+        
+        <a class="btn btn-success mt-3" href="/Home/Index">Want to brows more categories?</a>
+        
+    </div>
+}
