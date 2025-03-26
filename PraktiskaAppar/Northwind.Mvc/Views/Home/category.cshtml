@@ -8,7 +8,14 @@
         currentIndex = (int)ViewData["CurrentIndex"];
     }
     var category = Model.Categories[currentIndex];
+    var products = Model.Products.Where(p => p.CategoryId == category.CategoryId).ToList();
 }
+<!--Ny view category för att visa produkter i en specifik 
+    categorie beroende på
+    klick i carousel.
+-->
+
+<!-- loop för att lopa igenom items i categories/products och skriva ut de i en lista.-->
 @if (Model.Categories.Count > 0)
 {
     <div class="text-center">
@@ -16,14 +23,30 @@
         <h1 class="display-4">Welcome to @category.CategoryName page!</h1>
         <h2>What we offer in @category.CategoryName</h2>
         
+        <p>@category.Description</p>
+        
+        <h3>Products in @category.CategoryName</h3>
         <ul class="list-group">
-            @foreach (var item in category.Description.Split(' '))
+            @foreach (var product in products)
             {
-                <li class="list-group-item">@item</li>
+                // Skapar en länk till ProductDetail sidan för varje produkt.
+                <li class="list-group-item">
+                    <a asp-controller="Home" asp-action="ProductDetail" asp-route-id="@product.ProductId">
+                        @product.ProductName
+                    </a>
+                </li>
             }
         </ul>
+    
+        <a class="btn btn-success mt-3" href="/Home/Index">Want to browse more categories?</a>
         
-        <a class="btn btn-success mt-3" href="/Home/Index">Want to brows more categories?</a>
-        
+    </div>
+}
+else
+{
+    //Knapp för att komma tillbaka till index
+    <div class="text-center">
+        <h1 class="display-4">No categories available</h1>
+        <a class="btn btn-success mt-3" href="/Home/Index">Go back to Home</a>
     </div>
 }

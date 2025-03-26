@@ -82,18 +82,21 @@ namespace Northwind.Mvc.Controllers
         //För att kunna öppna upp view för category
         public IActionResult Category(int id)
         {
-            var category =db.Categories.SingleOrDefault(c => c.CategoryId == id);
-            if (category is null) 
+            var category = db.Categories.SingleOrDefault(c => c.CategoryId == id);
+            if (category == null)
             {
-                return NotFound($"Category with id {id} not found. Try again.");
+                return NotFound($"Category with ID {id} not found.");
             }
-            var model = new HomecategoryViewModel
-            {
-                Categories = new List<Category> { category }
-            };
-            return View(model);
 
+            var products = db.Products.Where(p => p.CategoryId == id).ToList();
+
+            var model = new HomecategoryViewModel
+            (
+                new List<Category> { category },
+                products 
+            );
             
+            return View(model);
         }
 
     }
